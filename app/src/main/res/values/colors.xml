@@ -4,4 +4,8 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="red_error">#E85959</color>
+    <color name="text_color">#2a2a2a</color>
+    <color name="txt_color_shade">#556799</color>
+    <color name="header_bgcolor">#F5F6F7</color>
+    <color name="bg_button">#4a4a4a</color>
 </resources>

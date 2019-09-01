@@ -1,18 +1,23 @@
 package co.id.kadaluarsa.gojekassignment.fragment
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import co.id.kadaluarsa.gojekassignment.R
+import co.id.kadaluarsa.gojekassignment.adapter.WeatherAdapter
 import co.id.kadaluarsa.gojekassignment.base.BaseFragment
+import co.id.kadaluarsa.gojekassignment.data.model.Forecastday
 import co.id.kadaluarsa.gojekassignment.databinding.FragmentWeatherBinding
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_weather.view.*
+import co.id.kadaluarsa.gojekassignment.utils.Resource
+import com.google.android.gms.location.LocationRequest
+import com.patloew.rxlocation.RxLocation
 import kotlinx.android.synthetic.main.view_error.view.*
+
 
 class WeatherFrag : BaseFragment<WeatherViewmodel, FragmentWeatherBinding>() {
     override fun showError(message: String) {
@@ -54,18 +59,53 @@ class WeatherFrag : BaseFragment<WeatherViewmodel, FragmentWeatherBinding>() {
     }
 
     override fun getLayoutRes(): Int {
-        return R.layout.fragment_weather
+        return co.id.kadaluarsa.gojekassignment.R.layout.fragment_weather
     }
 
     override fun getViewModel(): Class<WeatherViewmodel> {
         return WeatherViewmodel::class.java
     }
 
+    @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.getWeather("-6.8973254%2C107.6260937", 4, "en")
-        viewModel.weatherData.observe(this, Observer {
-            onSuccess()
+        val rcanimation =
+            AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.layout_anim_frombottom)
+        val rxLocation = RxLocation(requireContext())
+        val locationRequest = LocationRequest.create()
+            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
+            .setInterval(300000)
+
+        rxLocation.location().updates(locationRequest)
+            .flatMap { location -> rxLocation.geocoding().fromLocation(location).toObservable() }
+            .subscribe({ address ->
+                viewModel.getWeather(address.locality, 5, "en")
+            }, {
+                it.printStackTrace()
+            })
+
+        viewModel.weatherData.observe(this, Observer { data ->
+            when (data) {
+                is Resource.Success -> {
+                    onSuccess()
+                    dataBinding.listWeather.apply {
+                        layoutManager =
+                            LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
+                        data.data?.let {
+                            adapter = WeatherAdapter(
+                                it.location.country,
+                                it.forecast.forecastday as MutableList<Forecastday>
+                            )
+                        }
+                        layoutAnimation = rcanimation
+                    }
+                }
+                is Resource.Loading -> {
+                    onLoading()
+                }
+            }
         })
     }
+
+
 }

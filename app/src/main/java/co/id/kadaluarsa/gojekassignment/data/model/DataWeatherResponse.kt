@@ -1,5 +1,8 @@
 package co.id.kadaluarsa.gojekassignment.data.model
 
+import co.id.kadaluarsa.gojekassignment.Mockable
+
+@Mockable
 data class DataWeatherResponse(
     val alert: Alert,
     val current: Current,

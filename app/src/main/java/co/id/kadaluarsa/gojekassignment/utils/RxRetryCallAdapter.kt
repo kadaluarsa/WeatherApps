@@ -9,7 +9,6 @@ import io.reactivex.schedulers.Schedulers
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
-import timber.log.Timber
 import java.lang.reflect.Type
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 
@@ -75,7 +74,6 @@ class RxRetryCallAdapter<R>(private val originalAdapter: CallAdapter<R, *>) : Ca
 
 
     private fun sendBroadcast(throwable: Throwable) {
-        Timber.e(throwable)
         LocalBroadcastManager.getInstance(WeatherApp.getAppContext()).sendBroadcast(Intent(BaseFragment.ERROR_ACTION))
     }
 }

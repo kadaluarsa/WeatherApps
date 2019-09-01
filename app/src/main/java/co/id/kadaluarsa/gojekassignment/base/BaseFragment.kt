@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.id.kadaluarsa.gojekassignment.BuildConfig
+import co.id.kadaluarsa.gojekassignment.R
 import co.id.kadaluarsa.gojekassignment.di.AppProvider
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
@@ -35,7 +36,6 @@ abstract class BaseFragment<V : ViewModel, D : ViewDataBinding> : Fragment() {
     @LayoutRes
     protected abstract fun getLayoutRes(): Int
 
-
     @set:Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -49,7 +49,7 @@ abstract class BaseFragment<V : ViewModel, D : ViewDataBinding> : Fragment() {
             if (intent?.action == ERROR_ACTION) {
                 if(!onRetry){
                     onRetry = true
-                    showError("Something went wrong at our end!")
+                    showError(getString(R.string.error_message))
                 }
             }
         }

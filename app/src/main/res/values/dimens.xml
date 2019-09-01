@@ -1,3 +1,7 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_top">56dp</dimen>
+    <dimen name="padding_bot">62dp</dimen>
+    <dimen name="padding_row">16dp</dimen>
+    <dimen name="text_size_row">16sp</dimen>
 </resources>
