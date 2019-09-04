@@ -1,0 +1,2 @@
+hello my name is dony im android developer since 2016 why i applied to GOJEK because GOJEK is one of the big company in south east asia and its global product and large market.
+i want to be part of gotroops and work with awesome people.
