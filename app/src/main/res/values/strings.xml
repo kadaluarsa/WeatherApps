@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GojekAssignment</string>
+    <string name="app_name">WeatherApps</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="request_permission_message">Please granted the permission to enjoy the application</string>
     <string name="request_permission_mandatory">Our Apps need your location to get current weather</string>
